@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-crud-server-configmap
+  namespace: yitzchakdamen-dev
+  labels:
+    app: mongo-crud-server
+data:
+  MONGO_DATABASE: enemy_soldiers
+  MONGO_COLLECTION: soldier_details
+  MONGO_PORT: '27017'
+  MONGO_HOST: mongo-crud-server-service
+  APP_PORT: '8888'

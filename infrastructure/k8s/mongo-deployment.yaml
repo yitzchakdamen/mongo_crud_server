@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-crud-server-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongo-crud-server
+  template:
+    metadata:
+      labels:
+        app: mongo-crud-server
+    spec:
+      containers:
+      - name: mongo-crud-server-pod
+        image: mongodb/mongodb-community-server:latest
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-crud-server-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongo-crud-server-storage
+        persistentVolumeClaim:
+          claimName: mongo-crud-server-pvc

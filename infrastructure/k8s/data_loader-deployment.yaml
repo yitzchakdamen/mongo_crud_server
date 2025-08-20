@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-crud-server-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mongo-crud-server-app
+  template:
+    metadata:
+      labels:
+        app: mongo-crud-server-app
+    spec:
+      containers:
+      - name: mongo-crud-server-app
+        image: yitzchakdamen/mongo-crud-server:v5
+        imagePullPolicy: Always
+        env:
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-crud-server-configmap
+              key: APP_PORT
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-crud-server-configmap
+              key: MONGO_DATABASE
+        - name: MONGO_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-crud-server-configmap
+              key: MONGO_HOST
+        - name: MONGO_COLLECTION
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-crud-server-configmap
+              key: MONGO_COLLECTION
+        - name: MONGO_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-crud-server-configmap
+              key: MONGO_PORT
+        ports:
+        - containerPort: 8888
+
+
