@@ -1,4 +1,4 @@
-from data_loader.soldier import Soldier, SoldierModelPatch, SoldierModelPost
+from data_loader.soldier import Soldier, SoldierModelPatch
 from fastapi import FastAPI
 from data_loader.data_loader import DataLoader
 import os
@@ -14,15 +14,8 @@ dataLoader = DataLoader()
 
 
 @app.post("/soldier/")
-async def create(soldier_post:SoldierModelPost):
+async def create(soldier:Soldier):
     """Create a new soldier."""
-    soldier:Soldier = Soldier(
-        id=soldier_post.id, 
-        first_name=soldier_post.first_name, 
-        last_name=soldier_post.last_name, 
-        phone_number=soldier_post.phone_number, 
-        rank=soldier_post.rank
-        )
     return dataLoader.insert(soldier=soldier)
 
 
@@ -41,7 +34,7 @@ async def read(soldier_id:int):
 @app.patch("/soldier/{soldier_id}")
 async def update_soldier(soldier_id: int, soldier_update: SoldierModelPatch):
     """Update a soldier by ID."""
-    update_dict = {field: value for field, value in soldier_update.model_dump(exclude_unset=True).items()}
+    update_dict = soldier_update.model_dump(exclude_none=True)
     return dataLoader.update(soldier_id=soldier_id,update_dict=update_dict)
 
 

@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: mongo-crud-server-app
-        image: yitzchakdamen/mongo-crud-server:v5
+        image: yitzchakdamen/mongo-crud-server:v11
         imagePullPolicy: Always
         env:
         - name: APP_PORT
