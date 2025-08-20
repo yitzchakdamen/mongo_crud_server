@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-crud-server-service
+  labels:
+    app: mongo-crud-server
+spec:
+  selector:
+    app: mongo-crud-server
+  ports:
+    - port: 27017
+      targetPort: 27017
+  clusterIP: None 

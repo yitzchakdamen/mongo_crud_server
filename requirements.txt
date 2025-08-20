@@ -1,0 +1,5 @@
+uvicorn
+fastapi
+pymysql
+pymongo
+cryptography #הכי חשוב זה מצפין אוטמטי וגורם שQSQL יעבוד 
