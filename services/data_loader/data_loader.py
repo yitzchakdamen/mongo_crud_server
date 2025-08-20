@@ -51,26 +51,29 @@ class DataLoader:
     def insert(self, soldier:Soldier) -> bool:
         """Insert a new soldier into the database."""
         collection:Collection = self.get_collection()
-        insert = collection.insert_one(soldier.__dict__)
+        if len(list(self.get(soldier.ID))) > 0:
+            logger.error(f"Soldier with ID {soldier.ID} already exists.")
+            return False
+        insert = collection.insert_one(soldier.model_dump())
         return insert.acknowledged
     
     def update(self, soldier_id: int, update_dict: dict) -> bool:
         """Update an existing soldier in the database."""
         collection:Collection = self.get_collection()
-        update = collection.update_one(filter={"_id":soldier_id}, update={"$set":update_dict})
+        update = collection.update_one(filter={"ID":soldier_id}, update={"$set":update_dict})
         return update.acknowledged
     
     def delete(self, soldier_id: int) -> bool:
         """Delete a soldier from the database."""
         collection:Collection = self.get_collection()
-        delete = collection.delete_one(filter={"_id":soldier_id})
+        delete = collection.delete_one(filter={"ID":soldier_id})
         return delete.acknowledged
     
     def get(self, soldier_id=None) -> Cursor:
         """Fetch soldier/s from the database."""
         collection:Collection = self.get_collection()
-        if not soldier_id: return collection.find({})
-        return collection.find({"_id":soldier_id})
+        if not soldier_id: return collection.find({},{'_id':0})
+        return collection.find({"ID":soldier_id},{'_id':0})
     
     
 
